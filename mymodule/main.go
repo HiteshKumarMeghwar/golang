@@ -1,57 +1,21 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"net/http"
-	"text/template"
 )
 
-var html *template.Template
-
-type Todo struct {
-	Item string
-	Done bool
+func homeHandler(w http.ResponseWriter, r *http.Request) {
+	// w.Header().Set("Content-Type", "text/html")
+	fmt.Fprint(w, "<h1>Welcome to my awesome site!</h1>")
 }
 
-type PageData struct {
-	Title string
-	Todos []Todo
-}
-
-func todo(w http.ResponseWriter, r *http.Request) {
-	data := PageData{
-		Title: "TODO LIST",
-		Todos: []Todo{
-			{Item: "Install GO", Done: true},
-			{Item: "Learn GO", Done: false},
-			{Item: "Like this vide", Done: false},
-		},
-	}
-
-	html.Execute(w, data)
-}
-
-func about(w http.ResponseWriter, r *http.Request) {
-	data := PageData{
-		Title: "TODO LIST",
-		Todos: []Todo{
-			{Item: "Install GO", Done: true},
-			{Item: "Learn GO", Done: false},
-			{Item: "Like this vide", Done: false},
-		},
-	}
-
-	html.Execute(w, data)
-}
+// func about(w http.ResponseWriter, r *http.Request) {
+// 	fmt.Fprint(w, "<h1>Contact Page<p>To get in touch, email me at <a href=\"www.google.com\">Google</a>.</p>")
+// }
 
 func main() {
-	mux := http.NewServeMux()
-	html = template.Must(template.ParseFiles("templates/about.html"))
-	html = template.Must(template.ParseFiles("templates/index.html"))
-	mux.HandleFunc("/about", about)
-	mux.HandleFunc("/todo", todo)
-	err := http.ListenAndServe(":8080", mux)
-	if err != nil {
-		log.Fatal(err)
-	}
+	http.HandleFunc("/", homeHandler)
+	fmt.Println("Starting the server on :8080...")
+	http.ListenAndServe(":8080", nil)
 }
