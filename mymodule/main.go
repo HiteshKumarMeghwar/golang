@@ -1,22 +1,40 @@
 package main
 
 import (
-	"fmt"
-
-	"github.com/spf13/cobra"
-
-	"mymodule/mypackage"
+	"log"
+	"net/http"
+	"text/template"
 )
 
-func main() {
-	cmd := &cobra.Command{
-		Run: func(cmd *cobra.Command, args []string) {
-			fmt.Println("Hello, Modules!")
+var html *template.Template
 
-			mypackage.PrintHello()
+type Todo struct {
+	Item string
+	Done bool
+}
+
+type PageData struct {
+	Title string
+	Todos []Todo
+}
+
+func todo(w http.ResponseWriter, r *http.Request) {
+	data := PageData{
+		Title: "TODO LIST",
+		Todos: []Todo{
+			{Item: "Install GO", Done: true},
+			{Item: "Learn GO", Done: false},
+			{Item: "Like this vide", Done: false},
 		},
 	}
 
-	fmt.Println("Calling cmd.Execute()!")
-	cmd.Execute()
+	html.Execute(w, data)
+}
+
+func main() {
+	mux := http.NewServeMux()
+	html = template.Must(template.ParseFiles("templates/index.html"))
+	mux.HandleFunc("/todo", todo)
+
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
