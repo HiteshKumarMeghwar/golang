@@ -50,8 +50,9 @@ func main() {
 	html = template.Must(template.ParseFiles("templates/index.html"))
 	mux.HandleFunc("/about", about)
 	mux.HandleFunc("/todo", todo)
-	err := http.ListenAndServe(":8080", mux)
+	/* err := http.ListenAndServe(":8080", mux)
 	if err != nil {
 		log.Fatal(err)
-	}
+	} */
+	log.Fatal(http.ListenAndServe(":8080", mux))
 }
