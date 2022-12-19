@@ -1,6 +1,7 @@
 package views
 
 import (
+	"fmt"
 	"html/template"
 	"log"
 	"net/http"
@@ -8,6 +9,17 @@ import (
 
 type Template struct {
 	HTMLtpl *template.Template
+}
+
+func Parse(filepath string) (Template, error) {
+	tpl, err := template.ParseFiles(filepath)
+	if err != nil {
+		return Template{}, fmt.Errorf("parsing template: %v", err)
+	}
+
+	return Template{
+		HTMLtpl: tpl,
+	}, nil
 }
 
 func (t Template) Execute(w http.ResponseWriter, data interface{}) {
