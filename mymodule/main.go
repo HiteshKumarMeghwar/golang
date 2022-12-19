@@ -2,30 +2,71 @@ package main
 
 import (
 	"fmt"
+	"html/template"
+	"log"
 	"net/http"
+	"path/filepath"
 
 	"github.com/go-chi/chi/v5"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>Welcome to my awesome site!</h1>")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	filepath := filepath.Join("templates", "home.gohtml")
+	tpl, err := template.ParseFiles(filepath)
+
+	if err != nil {
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
+		return
+	}
+
+	err = tpl.Execute(w, nil)
+	if err != nil {
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error executing the template.", http.StatusInternalServerError)
+		return
+	}
 }
 
 func contactHandler(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, "<h1>Contact Page<p>To get in touch, email me at <a href=\"/\">Home page</a>.</p>")
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	filepath := filepath.Join("templates", "contact.gohtml")
+	tpl, err := template.ParseFiles(filepath)
+
+	if err != nil {
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
+		return
+	}
+
+	err = tpl.Execute(w, nil)
+
+	if err != nil {
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error executing the template.", http.StatusInternalServerError)
+		return
+	}
 }
 
 func faqHandler(w http.ResponseWriter, r *http.Request) {
-	// w.Header().Set("Content-Type", "text/html; charset=utf-8")
-	fmt.Fprint(w, `<h1>FAQ Page!</h1>
-		<ul>
-			<li><b>Is here a free version?</b> Yes! We offer a free trail for 30 day on way paid plan.</li>
-			<li><b>What are your support hours?</b> Yes! We offer a free trail for 30 day on way paid plan.</li>
-			<li><b>How do I contact support?</b> Email  us - <a href="www.google.com">Google</a></li>
-		</ul>
-	`)
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	filepath := filepath.Join("templates", "faq.gohtml")
+	tpl, err := template.ParseFiles(filepath)
+
+	if err != nil {
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error parsing the template.", http.StatusInternalServerError)
+		return
+	}
+
+	err = tpl.Execute(w, nil)
+
+	if err != nil {
+		log.Printf("parsing template: %v", err)
+		http.Error(w, "There was an error executing the template.", http.StatusInternalServerError)
+		return
+	}
 }
 
 // func pathHandler(w http.ResponseWriter, r *http.Request) {
