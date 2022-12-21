@@ -46,6 +46,7 @@ func main() {
 
 	fmt.Println("Connected")
 
+	/* Create Tables */
 	_, err = db.Exec(`
 		CREATE TABLE IF NOT EXISTS users (
 			id SERIAL PRIMARY KEY,
@@ -66,4 +67,23 @@ func main() {
 	}
 
 	fmt.Println("Tables created")
+
+	/* Insert Data into Tables */
+	/* _, err = db.Exec(`
+		INSERT INTO users (name, email) VALUES ('Hitesh Kumar','hiteshkumar@gmail.com');
+	`) */
+
+	name := "Arveer"
+	email := "arveer@gmail.com"
+
+	row := db.QueryRow(`
+		INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id;
+	`, name, email)
+	var id int
+	err = row.Scan(&id)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Println("User created. id = ", id)
 }
