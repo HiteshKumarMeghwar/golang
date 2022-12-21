@@ -8,8 +8,8 @@ services:
     restart: always # Always try to restart if this stops running
     environment: # Provide environment variables
       POSTGRES_USER: postgres # POSTGRES_USER env var w/ value baloo
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_PASSWORD: Hitesh@1230
+      POSTGRES_DB: mymodule
     ports: # Expose ports so that apps not running via docker compose can connect to them.
       - 5432:5432 # format here is "port on our machine":"port on container"
 
