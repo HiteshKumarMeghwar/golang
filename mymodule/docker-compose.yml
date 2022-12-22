@@ -11,7 +11,7 @@ services:
       POSTGRES_PASSWORD: Hitesh@1230
       POSTGRES_DB: mymodule
     ports: # Expose ports so that apps not running via docker compose can connect to them.
-      - 5432:5432 # format here is "port on our machine":"port on container"
+      - 5433:5433 # format here is "port on our machine":"port on container"
 
   # Adminer provides a nice little web UI to connect to databases
   adminer:
